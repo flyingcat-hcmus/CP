@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <input type="text" id="message" placeholder="Nhập tin nhắn">
+    <button onclick="sendMessage()">Gửi</button>
+    <ul id="messages"></ul>
+
+    <script>
+        // Kết nối đến server, thay "192.168.1.100" bằng IP máy chạy server
+        const ws = new WebSocket("ws://192.168.1.100:9002");
+
+        ws.onopen = () => {
+            console.log("Connected to server");
+        };
+
+        ws.onmessage = (event) => {
+            const li = document.createElement("li");
+            li.textContent = "Server: " + event.data;
+            document.getElementById("messages").appendChild(li);
+        };
+
+        function sendMessage() {
+            const msg = document.getElementById("message").value;
+            ws.send(msg);
+        }
+    </script>
+</body>
+</html>
